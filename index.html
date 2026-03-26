@@ -3,174 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAO_MARTINEZ > RAPPORT_CIEL_GLOBAL</title>
+    <title>TAO_MARTINEZ > DOSSIER_TECHNIQUE_2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@1,800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                },
+            },
+        }
+    </script>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #09090b; color: #d4d4d8; overflow-x: hidden; }
-        .mono { font-family: 'JetBrains Mono', monospace; }
+        body { font-family: 'Inter', sans-serif; background-color: #050505; color: #a1a1aa; overflow-x: hidden; }
         #progress-bar { transform-origin: left; transform: scaleX(0); }
         .reveal { opacity: 0; transform: translateY(20px); }
-        .cursor { display: inline-block; width: 8px; height: 1em; background: #fff; margin-left: 2px; animation: blink 1s infinite; }
+        .cursor { display: inline-block; width: 4px; height: 1.1em; background: #22d3ee; margin-left: 4px; animation: blink 1s infinite; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         
-        /* Style du Sommaire */
-        .nav-link { transition: all 0.3s ease; color: #52525b; border-left: 1px solid transparent; display: block; padding: 6px 0; }
-        .nav-link.active { color: #fff; border-left: 1px solid #fff; padding-left: 14px; font-weight: 600; }
+        .nav-link { transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); color: #3f3f46; position: relative; }
+        .nav-link:hover { color: #f4f4f5; transform: translateX(5px); }
+        .nav-link.active { color: #fff; font-weight: 700; }
+        .nav-link.active::before { content: '→'; position: absolute; left: -20px; color: #22d3ee; }
         
-        /* Conteneur d'image optimisé */
-        .img-tech-frame { border: 1px solid #18181b; background: #111114; overflow: hidden; max-width: 320px; flex-shrink: 0; border-radius: 12px; }
-        .img-full { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.6s ease; }
-        .img-tech-frame:hover .img-full { opacity: 1; transform: scale(1.05); }
+        .glass-panel { background: rgba(15, 15, 20, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .img-tech-frame { border: 1px solid #18181b; background: #09090b; overflow: hidden; max-width: 320px; border-radius: 4px; }
+        .img-full { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; transition: 0.8s ease; filter: saturate(0); }
+        .img-tech-frame:hover .img-full { opacity: 1; filter: saturate(1); transform: scale(1.05); }
     </style>
 </head>
-<body class="selection:bg-cyan-950 selection:text-cyan-200">
+<body class="selection:bg-cyan-500 selection:text-black">
 
-    <div id="progress-bar" class="fixed top-0 left-0 w-full h-[1px] bg-cyan-400 z-[100]"></div>
+    <div id="progress-bar" class="fixed top-0 left-0 w-full h-[2px] bg-cyan-500 z-[100]"></div>
 
-    <nav class="fixed left-4 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-4 bg-zinc-950/80 p-5 backdrop-blur-lg border border-zinc-900 rounded-xl shadow-2xl mono text-[9px] uppercase tracking-widest w-40">
-        <a href="#home" class="nav-link active">Home</a>
-        <a href="#intro" class="nav-link">Introduction</a>
-        <a href="#formagraph-ent" class="nav-link">01.1_Ent.</a>
-        <a href="#formagraph-tech" class="nav-link">01.2_Tech</a>
-        <a href="#admx-ent" class="nav-link">02.1_Ent.</a>
-        <a href="#admx-tech" class="nav-link">02.2_Tech</a>
-        <a href="#bilan" class="nav-link">Bilan</a>
+    <nav class="fixed left-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-5 mono text-[10px] uppercase tracking-[0.3em] w-48">
+        <a href="#home" class="nav-link active">Start</a>
+        <a href="#intro" class="nav-link">Context</a>
+        <a href="#formagraph-ent" class="nav-link">01.1_Structure</a>
+        <a href="#formagraph-tech" class="nav-link">01.2_Ops</a>
+        <a href="#admx-ent" class="nav-link">02.1_Admx</a>
+        <a href="#admx-tech" class="nav-link">02.2_Vba</a>
+        <a href="#bilan" class="nav-link">Conclusion</a>
     </nav>
 
-    <main class="lg:ml-48">
+    <main class="lg:ml-64">
 
-        <header id="home" class="h-[75vh] flex flex-col items-center justify-center p-6 text-center border-b border-zinc-900 relative">
-            <p class="mono text-zinc-600 text-[11px] tracking-[0.5em] mb-8 uppercase text-center w-full">Martinez_Tao // Bac Pro CIEL [cite: 1, 2]</p>
-            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-4 leading-none uppercase">
-                Martinez <span class="font-serif italic text-white">Tao</span><span class="cursor"></span>
-            </h1>
-            <p class="text-lg md:text-xl text-zinc-400 font-light tracking-widest uppercase">Lycée Jules Haag [cite: 58]</p>
+        <header id="home" class="h-screen flex flex-col items-center justify-center p-10 relative border-b border-zinc-900">
+            <div class="absolute top-10 left-10 mono text-[10px] text-zinc-700 tracking-widest uppercase">Martinez_Tao // P1CIEL1 [cite: 1, 2]</div>
+            <div class="z-10 text-center">
+                <h1 class="text-7xl md:text-[10rem] font-extrabold tracking-tighter mb-4 leading-none text-white">
+                    MARTINEZ<br><span class="font-serif italic text-zinc-800">TAO</span><span class="cursor"></span>
+                </h1>
+                <p class="text-sm md:text-lg text-zinc-500 font-light tracking-[0.5em] uppercase mt-10">Lycée Jules Haag — Site Marceau </p>
+            </div>
         </header>
 
-        <section id="intro" class="py-24 px-6 md:px-12 max-w-5xl mx-auto border-b border-zinc-900">
-            <div class="reveal space-y-8">
-                <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// CONTEXTE_DU_PARCOURS</h2>
-                <p class="text-lg leading-relaxed font-light">
-                    Ce rapport présente une synthèse de mes périodes de formation en milieu professionnel réalisées entre 2025 et 2026[cite: 23, 89]. L'objectif a été de mettre en œuvre les compétences acquises au <span class="text-white font-bold italic">Lycée Jules Haag</span> dans des environnements techniques exigeants[cite: 5, 64].
+        <section id="intro" class="py-32 px-10 md:px-20 max-w-5xl border-b border-zinc-900">
+            <div class="reveal space-y-12">
+                <h2 class="mono text-cyan-500 text-[10px] uppercase tracking-widest">// PROLOGUE</h2>
+                <p class="text-3xl md:text-5xl font-light leading-tight text-zinc-200">
+                    Synthèse des activités professionnelles réalisées entre <span class="italic font-serif">2024 et 2026</span>[cite: 1, 61]. Une immersion entre hardware critique et développement applicatif.
                 </p>
             </div>
         </section>
 
-        <section id="formagraph-ent" class="py-24 px-6 md:px-12 max-w-5xl mx-auto border-b border-zinc-900 bg-zinc-950/30">
-            <div class="reveal flex flex-col md:flex-row gap-12 items-start">
-                <div class="flex-1 space-y-6">
-                    <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// EXP_01.1 : STRUCTURE</h2>
-                    <h3 class="text-5xl font-extrabold text-white uppercase italic">Formagraph.</h3>
-                    <p class="text-zinc-400 leading-relaxed font-light">
-                        Établie au 9 A Rue Denis Papin à Besançon, Formagraph est une SAS spécialisée dans la formation[cite: 23, 31]. J'y ai effectué un stage de 6 semaines sous la direction de Monsieur BAI[cite: 5, 23].
+        <section id="formagraph-ent" class="py-32 px-10 md:px-20 max-w-6xl border-b border-zinc-900 glass-panel">
+            <div class="reveal flex flex-col md:flex-row gap-20 items-center">
+                <div class="flex-1 space-y-10">
+                    <h2 class="mono text-zinc-600 text-[10px] uppercase tracking-widest">01.1 // L'ENTREPRISE</h2>
+                    <h3 class="text-6xl font-extrabold text-white uppercase tracking-tighter">Formagraph<span class="text-zinc-800">.</span></h3>
+                    <p class="text-zinc-400 leading-relaxed font-light text-lg">
+                        Structure spécialisée dans la formation numérique à Besançon[cite: 23, 27]. Sous la tutelle de Monsieur BAI, j'ai intégré le service technique pour assurer la pérennité du parc informatique de formation[cite: 5, 24].
                     </p>
-                    <ul class="mono text-[10px] text-zinc-500 uppercase space-y-2 border-t border-zinc-900 pt-6">
-                        <li>> Statut: SAS [cite: 31]</li>
-                        <li>> Fournisseur: Saint Vit Informatique [cite: 34]</li>
-                        <li>> Domaine: Formation Numérique [cite: 27]</li>
-                    </ul>
-                </div>
-                <div class="img-tech-frame aspect-video">
-                    <img src="formagraph.jpg" alt="Locaux Formagraph" class="img-full">
-                </div>
-            </div>
-        </section>
-
-        <section id="formagraph-tech" class="py-24 px-6 md:px-12 max-w-5xl mx-auto border-b border-zinc-900">
-            <div class="reveal space-y-8">
-                <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// EXP_01.2 : RÉALISATION_HARDWARE</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 text-sm text-zinc-400 font-light">
-                    <p><strong class="text-white uppercase font-bold">> Maintenance :</strong> Diagnostic et prélèvement de composants sur unités obsolètes pour optimiser les performances des postes actifs[cite: 43].</p>
-                    <p><strong class="text-white uppercase font-bold">> Système :</strong> Réinstallation en autonomie de Windows 10 via clé USB bootable sur des postes verrouillés par mot de passe[cite: 45].</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="admx-ent" class="py-24 px-6 md:px-12 max-w-5xl mx-auto border-b border-zinc-900 bg-zinc-950/10">
-            <div class="reveal flex flex-col md:flex-row-reverse gap-12 items-start">
-                <div class="flex-1 space-y-6">
-                    <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// EXP_02.1 : ASSISTANCE</h2>
-                    <h3 class="text-5xl font-extrabold text-white uppercase italic">ADMX Info.</h3>
-                    <p class="text-zinc-400 leading-relaxed font-light">
-                        Située Rue Jacquard à Besançon, ADMX est une SAS d'assistance informatique[cite: 89, 103]. L'équipe se compose de 6 employés et d'un apprenti, gérés par Laurent GRAIN[cite: 64, 101].
-                    </p>
-                    <ul class="mono text-[10px] text-zinc-500 uppercase space-y-2 border-t border-zinc-900 pt-6">
-                        <li>> Clients: Herbelin, Stainless, Plast-Moulding [cite: 106, 107, 108]</li>
-                        <li>> Activité: Assistance informatique [cite: 96]</li>
-                    </ul>
-                </div>
-                <div class="img-tech-frame aspect-video">
-                    <img src="admx.jpg" alt="Locaux ADMX" class="img-full">
-                </div>
-            </div>
-        </section>
-
-        <section id="admx-tech" class="py-24 px-6 md:px-12 max-w-5xl mx-auto border-b border-zinc-900 bg-black">
-            <div class="reveal grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="space-y-6">
-                    <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// EXP_02.2 : DÉVELOPPEMENT_VBA</h2>
-                    <p class="text-sm text-zinc-400 font-light leading-relaxed">
-                        Conception d'une macro VBA pour automatiser la synchronisation de dates de formation entre Excel et Outlook[cite: 116, 118]. Le programme vérifie le format des cellules et génère des rendez-vous calendrier[cite: 119, 120].
-                    </p>
-                </div>
-                <div class="p-6 bg-zinc-900 border border-zinc-800 rounded-xl text-green-400 font-mono text-[10px] shadow-2xl">
-                    <p>Sub SyncOutlook()</p>
-                    <p class="pl-4">If IsDate(Format(Cell.Value, "dd/mm/yyyy")) Then [cite: 119]</p>
-                    <p class="pl-8">Set Appt = Outlook.CreateItem(1) [cite: 120]</p>
-                    <p class="pl-4">End If</p>
-                    <p>End Sub</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="bilan" class="py-24 px-6 max-w-4xl mx-auto text-center">
-            <div class="reveal space-y-12">
-                <h2 class="mono text-zinc-500 text-xs uppercase tracking-widest">// BILAN_SYNTHÈSE</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-left border-t border-zinc-900 pt-12">
-                    <div class="space-y-2">
-                        <p class="mono text-cyan-400 text-[10px] font-bold uppercase underline">Compétences [cite: 127]</p>
-                        <p class="text-sm text-zinc-400">Rigueur, Écoute, Réflexion, Autonomie[cite: 128].</p>
-                    </div>
-                    <div class="space-y-2">
-                        <p class="mono text-cyan-400 text-[10px] font-bold uppercase underline">Futur [cite: 135]</p>
-                        <p class="text-sm text-zinc-400">Accord de reprise en stage ADMX pour l'année prochaine[cite: 137].</p>
+                    <div class="grid grid-cols-2 gap-10 mono text-[9px] text-zinc-500 uppercase pt-10 border-t border-zinc-800">
+                        <div>
+                            <p class="text-zinc-300 mb-2 underline">Localisation [cite: 23]</p>
+                            <p>9 A Rue Denis Papin, 25000</p>
+                        </div>
+                        <div>
+                            <p class="text-zinc-300 mb-2 underline">Statut [cite: 31]</p>
+                            <p>Société par Actions Simplifiée</p>
+                        </div>
                     </div>
                 </div>
-                <div class="pt-12">
-                    <a href="rapport.pdf" download class="inline-block px-12 py-5 border-2 border-cyan-800 text-cyan-400 font-bold uppercase text-[10px] tracking-[0.4em] hover:bg-cyan-800 hover:text-white transition-all rounded shadow-2xl">
-                        Download_Full_PDF
+                <div class="img-tech-frame aspect-[4/5] shadow-2xl">
+                    <img src="formagraph.jpg" alt="Locaux" class="img-full">
+                </div>
+            </div>
+        </section>
+
+        <section id="formagraph-tech" class="py-32 px-10 md:px-20 max-w-5xl border-b border-zinc-900">
+            <div class="reveal space-y-16">
+                <h2 class="mono text-cyan-500 text-[10px] uppercase tracking-widest">01.2 // MISSIONS_HARDWARE</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+                    <div class="space-y-4">
+                        <p class="text-white font-bold uppercase text-xs tracking-widest italic">Optimisation [cite: 43]</p>
+                        <p class="text-sm text-zinc-500 leading-relaxed">Prélèvement de composants sur unités obsolètes pour booster les stations de travail actives. Montage et tests de performance[cite: 43].</p>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-white font-bold uppercase text-xs tracking-widest italic">Système [cite: 45]</p>
+                        <p class="text-sm text-zinc-500 leading-relaxed">Réinstallation autonome de Windows 10 via clé USB bootable. Déploiement des drivers et logiciels de formation[cite: 45].</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="admx-ent" class="py-32 px-10 md:px-20 max-w-6xl border-b border-zinc-900">
+            <div class="reveal flex flex-col md:flex-row-reverse gap-20 items-center">
+                <div class="flex-1 space-y-10">
+                    <h2 class="mono text-zinc-600 text-[10px] uppercase tracking-widest">02.1 // ASSISTANCE</h2>
+                    <h3 class="text-6xl font-extrabold text-white uppercase tracking-tighter italic">ADMX Info<span class="text-zinc-800">.</span></h3>
+                    <p class="text-zinc-400 leading-relaxed font-light text-lg">
+                        Une structure d'assistance de proximité (6 employés) gérée par Laurent GRAIN[cite: 89, 101, 103]. Une immersion centrée sur la préparation de postes pour des comptes industriels majeurs[cite: 104, 112].
+                    </p>
+                    <div class="p-6 border border-zinc-800 mono text-[9px] text-zinc-600 uppercase">
+                        <p class="text-zinc-300 mb-4 underline">Références Clients [cite: 105]</p>
+                        <p>> Stainless / Herbelin / Plast-Moulding [cite: 106, 107, 108]</p>
+                    </div>
+                </div>
+                <div class="img-tech-frame aspect-[4/5] shadow-2xl">
+                    <img src="admx.jpg" alt="ADMX" class="img-full">
+                </div>
+            </div>
+        </section>
+
+        <section id="admx-tech" class="py-32 px-10 md:px-20 max-w-5xl border-b border-zinc-900 bg-zinc-950/20">
+            <div class="reveal space-y-16">
+                <h2 class="mono text-cyan-500 text-[10px] uppercase tracking-widest">02.2 // DÉVELOPPEMENT_APPLICATIF</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                    <div class="space-y-8">
+                        <p class="text-2xl text-zinc-200 font-light italic leading-snug">
+                            "Conception d'une passerelle automatisée entre Excel et Outlook pour la gestion des sessions de formation"[cite: 116].
+                        </p>
+                        <p class="text-sm text-zinc-500 leading-relaxed font-light">
+                            Algorithme de détection de format date ($xx/xx/xxxx$), extraction des métadonnées (Intervenant/Domaine) et injection automatisée dans le calendrier client[cite: 119, 120].
+                        </p>
+                    </div>
+                    <div class="p-8 glass-panel rounded-lg shadow-2xl">
+                        <div class="flex gap-2 mb-6">
+                            <div class="w-2 h-2 rounded-full bg-red-500/50"></div>
+                            <div class="w-2 h-2 rounded-full bg-yellow-500/50"></div>
+                            <div class="w-2 h-2 rounded-full bg-green-500/50"></div>
+                        </div>
+                        <p class="mono text-[10px] text-cyan-400 leading-relaxed">
+                            <span class="text-zinc-600 italic">// Macro_VBA_Module </span><br>
+                            Sub SyncAppointments()<br>
+                            &nbsp;&nbsp;If IsDate(Cell.Value) Then<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;Set Appt = Outlook.CreateItem(1)<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="text-zinc-600">// Process Date & Subject</span><br>
+                            &nbsp;&nbsp;End If<br>
+                            End Sub
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bilan" class="py-40 px-10 md:px-20 text-center">
+            <div class="reveal space-y-20">
+                <h2 class="mono text-zinc-700 text-[10px] uppercase tracking-widest underline decoration-cyan-500">// SYNTHÈSE</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 text-left max-w-4xl mx-auto">
+                    <div class="space-y-4">
+                        <p class="mono text-[10px] text-zinc-500 uppercase tracking-widest">Acquis [cite: 49, 126]</p>
+                        <p class="text-lg text-zinc-300">Autonomie technique, rigueur opérationnelle et maîtrise hardware complexe[cite: 51, 128].</p>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="mono text-[10px] text-zinc-500 uppercase tracking-widest">Perspectives [cite: 137]</p>
+                        <p class="text-lg text-zinc-300 italic">Accord de principe validé pour une reprise en stage chez ADMX l'année prochaine[cite: 137].</p>
+                    </div>
+                </div>
+                <div class="pt-10">
+                    <a href="rapport.pdf" download class="inline-block px-16 py-6 border border-white text-white font-bold uppercase text-[10px] tracking-[0.5em] hover:bg-white hover:text-black transition-all duration-500 shadow-2xl">
+                        Export_Rapport_Global
                     </a>
                 </div>
             </div>
         </section>
 
-        <footer class="py-12 border-t border-zinc-900 text-center mono text-[8px] text-zinc-800 uppercase tracking-[0.5em] bg-black">
-            Martinez Tao // Jules Haag // CIEL 2024-2026
+        <footer class="py-20 border-t border-zinc-900 text-center mono text-[9px] text-zinc-800 uppercase tracking-[0.6em]">
+            Martinez Tao // P1CIEL1 // 2024-2026 [cite: 1, 61]
         </footer>
 
     </main>
 
     <script>
         gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+        
+        // Progress bar réactive
         gsap.to("#progress-bar", { scaleX: 1, ease: "none", scrollTrigger: { scrub: 0.1 } });
+
+        // Animations Reveal fluides
         gsap.utils.toArray(".reveal").forEach(elem => {
-            gsap.to(elem, { scrollTrigger: { trigger: elem, start: "top 95%" }, opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+            gsap.to(elem, { 
+                scrollTrigger: { trigger: elem, start: "top 95%" }, 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.8, 
+                ease: "expo.out" 
+            });
         });
+
+        // Navigation fluide
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('header, section');
+
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                gsap.to(window, { duration: 0.6, scrollTo: link.getAttribute('href'), ease: "power2.inOut" });
+                gsap.to(window, { duration: 0.8, scrollTo: link.getAttribute('href'), ease: "power4.inOut" });
             });
         });
+
+        // Détection de section active
         window.addEventListener('scroll', () => {
             let current = "";
-            sections.forEach(s => { if (pageYOffset >= (s.offsetTop - 300)) current = s.getAttribute('id'); });
+            sections.forEach(s => {
+                const sTop = s.offsetTop;
+                if (pageYOffset >= (sTop - 300)) current = s.getAttribute('id');
+            });
             navLinks.forEach(l => {
                 l.classList.remove('active');
                 if (l.getAttribute('href').includes(current)) l.classList.add('active');
